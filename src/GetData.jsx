@@ -14,7 +14,7 @@ const GetData = () => {
     axios
       .get("http://localhost:5700/product/getproduct")
       .then((response) => {
-        setData(response.data);
+        setData(response.data.products);
 
         setLoading(false);
       })
