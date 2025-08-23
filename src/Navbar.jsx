@@ -138,6 +138,8 @@ const navigation = {
   pages: [
     { name: 'Kids', href: '#' },
     { name: 'Accessories', href: '#' },
+    { name: 'About Us', href: '/aboutus' },   // ✅ new
+    { name: 'Contact Us', href: '/contactus' },   // ✅ new
   ],
 }
 
@@ -269,7 +271,7 @@ const Navbar = () => {
 
       <header className="relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+          Get free delivery on orders over RS: 20,000
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -430,3 +432,5 @@ const Navbar = () => {
 }
 
 export default Navbar;
+
+

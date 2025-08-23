@@ -1,35 +1,40 @@
-// // 
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import "../assets/new.css"; // Make sure the path is correct
 
 const GetData = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchOrderData = () => {
+  const fetchOrderData = async () => {
     setLoading(true);
     setError(null);
-    axios
-      .get("http://localhost:5700/product/getproduct")
-      .then((response) => {
-        setData(response.data);
+    try {
+      const res = await axios.get("http://localhost:5700/product/getproduct");
 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError("Failed to fetch product data");
-        setLoading(false);
-      });
+      console.log("API Response:", res.data); // 👈 check structure here
+
+      // Adjust this based on actual response
+      if (Array.isArray(res.data.products)) {
+        setData(res.data.products);
+      } else if (Array.isArray(res.data.data)) {
+        setData(res.data.data);
+      } else if (Array.isArray(res.data)) {
+        setData(res.data);
+      } else {
+        setError("Unexpected API response format");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError("Error fetching data");
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
-    fetchOrderData(); // Fetch on mount
+    fetchOrderData();
   }, []);
 
   return (
@@ -52,12 +57,24 @@ const GetData = () => {
             )}
 
             {/* Product details */}
-            <p><strong>Name:</strong> {obj.name}</p>
-            <p><strong>Brand:</strong> {obj.brand}</p>
-            <p><strong>Model:</strong> {obj.model}</p>
-            <p><strong>MRP:</strong> {obj.price?.mrp}</p>
-            <p><strong>Offer:</strong> {obj.price?.offer}</p>
-            <p><strong>Availability:</strong> {obj.availability}</p>
+            <p>
+              <strong>Name:</strong> {obj.name}
+            </p>
+            <p>
+              <strong>Brand:</strong> {obj.brand}
+            </p>
+            <p>
+              <strong>Model:</strong> {obj.model}
+            </p>
+            <p>
+              <strong>MRP:</strong> {obj.price?.mrp}
+            </p>
+            <p>
+              <strong>Offer:</strong> {obj.price?.offer}
+            </p>
+            <p>
+              <strong>Availability:</strong> {obj.availability}
+            </p>
           </div>
         ))}
       </div>
