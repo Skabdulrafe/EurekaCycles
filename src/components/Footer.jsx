@@ -6,7 +6,9 @@ const Footer = () => {
   return (
     <footer className="bg-black text-white">
       {/* Top icons row */}
+
       <div className="bg-indigo-700 flex flex-wrap justify-around items-center py-6 text-center">
+
         <div className="flex flex-col items-center gap-2">
           <FaCreditCard size={28} />
           <span className="font-semibold">FLEXIBLE PAYMENTS</span>
