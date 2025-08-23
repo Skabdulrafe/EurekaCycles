@@ -1,6 +1,3 @@
-// // 
-
-
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -31,9 +28,13 @@ const GetData = () => {
   useEffect(() => {
     fetchOrderData(); // Fetch on mount
   }, []);
+   const handleMainClick = () => {
+    console.log("hello");
+    alert("hello");
+  };
 
   return (
-    <div className="main">
+    <div className="main"  onClick={handleMainClick}>
       <h1>Product Data</h1>
 
       {loading && <p>Loading...</p>}
@@ -43,15 +44,24 @@ const GetData = () => {
         {data.map((obj, index) => (
           <div className="win" key={index}>
             {/* First image only */}
-            {obj.images && obj.images.length > 0 && (
+            {/* {obj.images && obj.images.length > 0 && (
               <img
                 src={obj.images[0]}
                 alt={`Product ${index}`}
                 className="card-image"
               />
-            )}
+            )} */}
+           <div className="flex items-center justify-between flex-wrap  gap-4">
+             {obj.images.map((val,index)=>{
+            
+             return(<img src={val} alt=""  heigh="300px" width="300px"/>)
+                
+            })
+            }
+             </div>
 
             {/* Product details */}
+            <p>{obj._id}</p>
             <p><strong>Name:</strong> {obj.name}</p>
             <p><strong>Brand:</strong> {obj.brand}</p>
             <p><strong>Model:</strong> {obj.model}</p>
@@ -65,48 +75,4 @@ const GetData = () => {
   );
 };
 
-export default GetData;
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-
-// const GetData = () => {
-//   const [data, setData] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-
-//   const fetchOrderData = () => {
-//     setLoading(true);
-//     setError(null);
-//     axios
-//       .get("http://localhost:5700/product/getproduct")
-//       .then((response) => {
-//         setData(response.data);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         setError("Failed to fetch product data");
-//         setLoading(false);
-//       });
-//   };
-
-//   useEffect(() => {
-//     fetchOrderData();
-//   }, []);
-
-//   return (
-//     <div className="main">
-//       <h1>Product Data (Raw JSON)</h1>
-
-//       {loading && <p>Loading...</p>}
-//       {error && <p style={{ color: "red" }}>{error}</p>}
-
-//       {/* Show the entire JSON data */}
-//       <pre style={{ background: "#f4f4f4", padding: "10px", borderRadius: "8px" }}>
-//         {JSON.stringify(data, null, 2)}
-//       </pre>
-//     </div>
-//   );
-// };
-
-// export default GetData;
+ export default GetData;
