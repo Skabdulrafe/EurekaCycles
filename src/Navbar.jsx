@@ -136,8 +136,8 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
+    { name: 'Kids', href: '#' },
+    { name: 'Accessories', href: '#' },
   ],
 }
 
