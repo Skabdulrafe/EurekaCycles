@@ -8,12 +8,14 @@ import Aboutus from './pages/Aboutus';
 import Contactus from './pages/Contactus';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   return (
     <div className='bg-red-400'> 
     <Navbar/>
       {/* <GetData/> */}
+      <AdminDashboard />
 
 
       <Routes>
