@@ -1,277 +1,186 @@
-import React, { Fragment } from "react";
-import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import React from 'react'
+import  { useState, useEffect } from "react";
+import { Instagram, Facebook, ShoppingBag, Search, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const navigation = {
-  categories: [
-    {
-      id: "cycles",
-      name: "Cycles",
-      featured: [
-        {
-          name: "Hero Cycles ENZO 26T",
-          href: "#",
-          imageSrc:
-            "https://www.herocycles.com/dw/image/v2/BGQH_PRD/on/demandware.static/-/Sites-cycles-master/default/dw48d2ea34/Products/Trot/BSTRO24BKOR003/01.png?sh=523&sfrm=png",
-          imageAlt: "Hero Cycles ENZO 26T",
-        },
-        {
-          name: "Blaze Mountain Bike",
-          href: "#",
-          imageSrc:
-            "https://www.herocycles.com/dw/image/v2/BGQH_PRD/on/demandware.static/-/Sites-cycles-master/default/dw327e2b40/Products/Trot/BSTRO24BKOR003/04.png?sh=523&sfrm=png",
-          imageAlt: "Blaze Mountain Bike",
-        },
-      ],
-      sections: [
-        {
-          id: "men",
-          name: "Men",
-          items: [
-            { name: "Mountain Bikes", href: "#" },
-            { name: "City Bikes", href: "#" },
-            { name: "Road Bikes", href: "#" },
-          ],
-        },
-        {
-          id: "women",
-          name: "Women",
-          items: [
-            { name: "Hybrid Bikes", href: "#" },
-            { name: "Cruisers", href: "#" },
-            { name: "Electric Bikes", href: "#" },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [{ name: "About Us", href: "#" }, { name: "Contact", href: "#" }],
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  // Fetch products when search query changes
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      axios
+        .get(`http://localhost:5700/product/getproduct`)
+        .then((response) => {
+          const filteredProducts = response.data.filter((product) =>
+            product.name
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+          );
+          setSearchResults(filteredProducts);
+          setShowResults(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching products:", error);
+        });
+    } else {
+      setShowResults(false);
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+
+  // Close mobile menu when a category is clicked
+  const handleCategoryClick = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <header className="bg-black text-white">
+      {/* Top Bar */}
+      <div className="flex justify-between items-center px-4 py-3 text-sm">
+        <div className="flex gap-3">
+          <a href="#" className="hover:text-gray-300">
+            <Instagram />
+          </a>
+          <a href="#" className="hover:text-gray-300">
+            <Facebook />
+          </a>
+        </div>
+        <p className="text-sm font-medium hidden md:block">
+          Delivery Only In Nanded
+        </p>
+        <Link to='/login'>Login</Link>
+
+      </div>
+
+      {/* Main Navbar */}
+      <div className="bg-white shadow-md">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+          <Link to="/">
+  <img
+    src="https://tekiskymart.com/static/media/TekiskyMartNewLogo-removebg-preview.929802cde3ff522f7030.png"
+    alt="Logo"
+    className="w-20 h-20 cursor-pointer"
+  />
+</Link>
+            <h1 className="text-lg font-bold text-gray-700">TEKISKY MART</h1>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative flex-1 mx-6 hidden md:block">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring focus:border-blue-500"
+            />
+            <Search className="absolute right-3 top-2.5 text-gray-500" size={18} />
+
+            {/* Search Results Dropdown */}
+            {showResults && (
+              <div className="absolute w-full bg-white border rounded-md mt-2 shadow-lg max-h-60 overflow-y-auto z-50">
+                {searchResults.length > 0 ? (
+                  searchResults.map((product) => (
+                    <Link
+                      key={product._id}
+                      to={`/product/${product._id}`}
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      onClick={() => setShowResults(false)}
+                    >
+                      {product.name}
+                    </Link>
+                  ))
+                ) : (
+                  <p className="px-4 py-2 text-gray-500">No results found</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Cart Icon & Hamburger */}
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Link to="/shoppingcart">
+                <ShoppingBag size={24} className="text-gray-700" />
+              </Link>
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                0
+              </span>
+            </div>
+
+            {/* Hamburger Menu (Mobile) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden text-gray-700"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Categories Menu (Desktop) */}
+      <nav className="bg-black hidden md:block">
+        <div className="container mx-auto">
+          <ul className="flex flex-wrap justify-center text-sm font-semibold space-x-4 py-4">
+            {[
+                { label: "HOME", path: "/" },
+            { label: "Kids", path: "/category/kids" },
+              { label: "Men", path: "/category/men" },
+              { label: "Women", path: "/category/Women" },
+              { label: "accessories", path: "/category/accessories" },
+              { label: "About Us", path: "/AboutUs" },
+              { label: "PRE-ORDER", path: "/preorder" },
+              { label: "CUSTOMER SUPPORT", path: "/customersupport" }
+            ].map((item, index) => (
+              <li key={index}>
+                <Link to={item.path} className="hover:text-red-300">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* Mobile Menu (Dropdown) */}
+      {isOpen && (
+        <nav className="bg-black md:hidden">
+          <ul className="flex flex-col text-center text-sm font-semibold space-y-2 py-4">
+            {[
+               { label: "HOME", path: "/" },
+            { label: "Kids", path: "/category/kids" },
+              { label: "Men", path: "/category/men" },
+              { label: "Women", path: "/category/Women" },
+              { label: "Accessories", path: "/category/Accessories" },
+              { label: "About Us", path: "/AboutUs" },
+              { label: "PRE-ORDER", path: "/preorder" },
+              { label: "CUSTOMER SUPPORT", path: "/customersupport" }
+            ].map((item, index) => (
+              <li key={index}>
+                <Link
+                  to={item.path}
+                  className="block py-2 hover:bg-blue-800"
+                  onClick={handleCategoryClick}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </header>
+  );
 };
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+export default Navbar;
 
-export default function Navbar() {
-  return (
-    <div className="bg-white">
-      {/* Mobile menu */}
-      <Transition.Root show={false} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden" onClose={() => {}}>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
 
-          <div className="fixed inset-0 z-40 flex">
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                <div className="flex px-4 pb-2 pt-5">
-                  <button
-                    type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-                  >
-                    <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-
-                {/* Links */}
-                <Tab.Group as="div" className="mt-2">
-                  <div className="border-b border-gray-200">
-                    <Tab.List className="-mb-px flex space-x-8 px-4">
-                      {navigation.categories.map((category) => (
-                        <Tab
-                          key={category.name}
-                          className={({ selected }) =>
-                            classNames(
-                              selected
-                                ? "text-indigo-600 border-indigo-600"
-                                : "text-gray-900 border-transparent",
-                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
-                            )
-                          }
-                        >
-                          {category.name}
-                        </Tab>
-                      ))}
-                    </Tab.List>
-                  </div>
-                  <Tab.Panels as={Fragment}>
-                    {navigation.categories.map((category) => (
-                      <Tab.Panel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
-                        {category.sections.map((section) => (
-                          <div key={section.name}>
-                            <p
-                              id={`${category.id}-${section.id}-heading-mobile`}
-                              className="font-medium text-gray-900"
-                            >
-                              {section.name}
-                            </p>
-                            <ul
-                              role="list"
-                              aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                              className="mt-6 flex flex-col space-y-6"
-                            >
-                              {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
-                                  <a
-                                    href={item.href}
-                                    className="-m-2 block p-2 text-gray-500"
-                                  >
-                                    {item.name}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </Tab.Panel>
-                    ))}
-                  </Tab.Panels>
-                </Tab.Group>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-      {/* Desktop menu */}
-      <header className="relative bg-white">
-        <nav
-          aria-label="Top"
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        >
-          <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
-              {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
-                <a href="#">
-                  <span className="sr-only">Company</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full space-x-8">
-                  {navigation.categories.map((category) => (
-                    <Popover key={category.name} className="flex">
-                      {({ open }) => (
-                        <>
-                          <div className="relative flex">
-                            <Popover.Button
-                              className={classNames(
-                                open
-                                  ? "text-indigo-600"
-                                  : "text-gray-700 hover:text-gray-800",
-                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium"
-                              )}
-                            >
-                              {category.name}
-                            </Popover.Button>
-                          </div>
-
-                          <Transition
-                            as={Fragment}
-                            enter="transition ease-out duration-200"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="transition ease-in duration-150"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
-                              <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-                              <div className="relative bg-white">
-                                <div className="mx-auto max-w-7xl px-8">
-                                  <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-                                    {category.featured.map((item) => (
-                                      <div key={item.name} className="group relative">
-                                        <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                          <img
-                                            src={item.imageSrc}
-                                            alt={item.imageAlt}
-                                            className="object-cover object-center"
-                                          />
-                                        </div>
-                                        <a href={item.href} className="mt-4 block font-medium text-gray-900">
-                                          {item.name}
-                                        </a>
-                                      </div>
-                                    ))}
-                                    {category.sections.map((section) => (
-                                      <div key={section.name}>
-                                        <p
-                                          id={`${section.name}-heading`}
-                                          className="font-medium text-gray-900"
-                                        >
-                                          {section.name}
-                                        </p>
-                                        <ul
-                                          role="list"
-                                          aria-labelledby={`${section.name}-heading`}
-                                          className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                        >
-                                          {section.items.map((item) => (
-                                            <li key={item.name} className="flex">
-                                              <a href={item.href} className="hover:text-gray-800">
-                                                {item.name}
-                                              </a>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </Popover.Panel>
-                          </Transition>
-                        </>
-                      )}
-                    </Popover>
-                  ))}
-
-                  {navigation.pages.map((page) => (
-                    <a
-                      key={page.name}
-                      href={page.href}
-                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                    >
-                      {page.name}
-                    </a>
-                  ))}
-                </div>
-              </Popover.Group>
-            </div>
-          </div>
-        </nav>
-      </header>
-    </div>
-  );
-}
