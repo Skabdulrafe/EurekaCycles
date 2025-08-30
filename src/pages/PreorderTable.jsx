@@ -42,7 +42,7 @@ const PreorderTable = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Preorders</h2>
+      <h2 className="text-2xl bg-amber-600 font-bold mb-4">Pre orders</h2>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 

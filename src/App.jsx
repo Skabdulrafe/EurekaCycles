@@ -47,8 +47,8 @@ const App = () => {
           <NewNav />
           <ErrorBoundary fallback={<h2>Oops! Something went wrong while loading the category.</h2>}>
             <Routes>
-              <Route path="/" element={<GetData />} />
-              <Route path='/homepage' element={<Homepage_a />} />
+              {/* <Route path="/" element={< />} /> */}
+              <Route path='/' element={<Homepage_a />} />
               <Route path="/category/:categoryName" element={<CategoryPage />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/AboutUs" element={<AboutUs />} />

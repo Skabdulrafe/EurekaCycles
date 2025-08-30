@@ -161,12 +161,12 @@ export default function Homepage_a() {
         <p className="mt-4 text-lg text-gray-300">
           Join thousands of happy riders today and experience cycling like never before.
         </p>
-        <a
-          href="#signup"
+        <Link
+          to="/register"
           className="mt-6 inline-block px-8 py-3 bg-[#fd7e14] text-white font-semibold rounded-2xl shadow-md hover:bg-[#e96b0c] transition"
         >
           Get Started
-        </a>
+        </Link>
       </motion.section>
     </div>
   );

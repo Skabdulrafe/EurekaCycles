@@ -80,8 +80,8 @@ const RegisterPage = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-3xl flex flex-col md:flex-row">
         {/* Left Section */}
-        <div className="md:w-1/2 bg-black flex flex-col items-center justify-center p-8">
-          <h2 className="text-white text-3xl font-bold text-center">Welcome to Tekisky Mart!</h2>
+        <div className="md:w-1/2 bg-orange-600 flex flex-col items-center justify-center p-8">
+          <h2 className="text-white text-3xl font-bold text-center">Welcome to Eureka Cycles!</h2>
           <p className="text-white mt-2 text-center">Admin / Seller Dashboard</p>
         </div>
 
@@ -144,7 +144,7 @@ const RegisterPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-2 rounded hover:bg-black transition duration-200"
+              className="w-full bg-orange-600 text-white py-2 rounded hover:bg-black transition duration-200"
             >
               Register
             </button>
