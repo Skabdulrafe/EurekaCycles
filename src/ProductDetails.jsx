@@ -1,171 +1,16 @@
-// // // import React from "react"; 
-// // // import  { useParams } from "react-router-dom";
-// // // const ProductDetails = () => {
-// // //   const { id } = useParams();
-
-// // //   return (
-// // //     <div>
-// // //       <h1>Product Details</h1>
-// // //       <p>Product ID: {id}</p>
-// // //       {/* You can call API using this id */}
-// // //     </div>
-// // //   );
-// // // };
-
-// // // export default ProductDetails;
-
-// // import React from "react"; 
-// // import { useEffect, useState } from "react";
-// // import { useParams, useNavigate } from "react-router-dom";
-// // import axios from "axios";
-
-
-// // const ProductDetailPage = () => {
-// //   const { id } = useParams(); // Get product ID from URL
-// // //   const navigate = useNavigate();
-
-// //   const [product, setProduct] = useState(null);
-// // //   const [quantity, setQuantity] = useState(1);
-// // //   const [selectedImage, setSelectedImage] = useState();
-
-// //   useEffect(() => {
-// //     axios
-// //       .get(`http://localhost:5700/product/getoneproduct/${id}`)
-// //       .then((response) => {
-// //         if (response) {
-// //           setProduct(response.data);
-// //           setSelectedImage(response?.data.imageURL[0]); // Set first image
-// //         } else {
-// //           console.error("Product not found!");
-// //         }
-// //       })
-// //       .catch((error) => console.error("Error fetching product:", error));
-// //   }, [id]);
-
-// //   if (!product) {
-// //     return (
-// //       <div className="text-center text-red-500 p-4">Loading product details...</div>
-// //     );
-// //   } return(
-// //     JSON.stringify(product,null,2)
-// //   )}
-// //   export default ProductDetailPage;
-
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import axios from "axios";
-
-// const ProductDetails = () => {
-//   const { id } = useParams();
-//   const [product, setProduct] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [selectedImage, setSelectedImage] = useState("");
-
-//   useEffect(() => {
-//     axios
-//       .get(`http://localhost:5700/product/getoneproduct/${id}`)
-//       .then((res) => {
-//         setProduct(res.data);
-//         setSelectedImage(res.data.images[0]); // Default to first image
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching product:", err);
-//         setLoading(false);
-//       });
-//   }, [id]);
-
-//   if (loading) {
-//     return <p className="text-center mt-10 text-gray-500">Loading product details...</p>;
-//   }
-
-//   if (!product) {
-//     return <p className="text-center mt-10 text-red-500">Product not found</p>;
-//   }
-
-//   const discountedPrice = product.price.mrp - product.price.offer;
-
-//   return (
-//     <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
-//       {/* LEFT: Image Gallery */}
-//       <div className="flex gap-4">
-//         {/* Thumbnails */}
-//         <div className="flex flex-col gap-3 overflow-y-auto max-h-[500px]">
-//           {product.images.map((img, index) => (
-//             <img
-//               key={index}
-//               src={img}
-//               alt={`Thumbnail ${index}`}
-//               className={`w-16 h-16 object-cover border rounded cursor-pointer ${
-//                 selectedImage === img ? "border-red-500" : "border-gray-300"
-//               }`}
-//               onClick={() => setSelectedImage(img)}
-//             />
-//           ))}
-//         </div>
-
-//         {/* Main Image */}
-//         <div className="flex-1">
-//           <img
-//             src={selectedImage}
-//             alt={product.name}
-//             className="w-full h-[500px] object-contain border rounded-lg shadow-md"
-//           />
-//         </div>
-//       </div>
-
-//       {/* RIGHT: Product Info */}
-//       <div>
-//         <h1 className="text-3xl font-bold">{product.name}</h1>
-//         <p className="text-yellow-500 mt-2">⭐ 5.0 star rating | 2 Reviews</p>
-
-//         {/* Price */}
-//         <div className="mt-4">
-//           <p className="text-gray-500 text-sm">MRP:</p>
-//           <p className="text-2xl font-bold text-red-600">
-//             ₹{discountedPrice.toLocaleString()}
-//             <span className="text-gray-500 text-lg line-through ml-2">
-//               ₹{product.price.mrp.toLocaleString()}
-//             </span>
-//           </p>
-//           <p className="text-sm mt-1">
-//             EMI starts at <span className="font-semibold">₹{product.price.emiOptions.minInstallment}</span>
-//           </p>
-//         </div>
-
-//         {/* EMI Section */}
-//         <div className="border p-4 mt-4 rounded">
-//           <p className="font-semibold text-gray-700">EMI OPTIONS</p>
-//           <p className="text-lg text-red-600 font-bold">
-//             ₹{product.price.emiOptions.startingEmi}/month | {product.price.emiOptions.durations.join("/")} months
-//           </p>
-//           <p className="text-sm text-gray-600 mt-1">UPI & Cards Accepted | Powered by Snapmint</p>
-//         </div>
-
-//         {/* Buttons */}
-//         <div className="mt-8 flex gap-4">
-//           <button className="bg-red-600 text-white px-6 py-3 rounded-full text-lg hover:bg-red-700">
-//             Add to Cart
-//           </button>
-//           <button className="border border-gray-500 px-6 py-3 rounded-full text-lg hover:bg-gray-100">
-//             Buy Now
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductDetails;
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     axios
@@ -191,6 +36,30 @@ const ProductDetails = () => {
 
   const discountedPrice = product.price.mrp - product.price.offer;
 
+  // ✅ Increase / Decrease Quantity
+  const increaseQuantity = () => setQuantity(quantity + 1);
+  const decreaseQuantity = () => setQuantity(Math.max(1, quantity - 1));
+
+  // ✅ Add to Cart (Save in LocalStorage)
+  const handleAddToCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItem = cartItems.find((item) => item._id === product._id);
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cartItems.push({ ...product, quantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    alert("Product added to cart!");
+  };
+
+  // ✅ Checkout
+  const handleCheckout = () => {
+    navigate("/checkout", { state: { cart: [{ ...product, quantity }] } });
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white shadow-xl rounded-xl mt-6">
       {/* LEFT: Image Gallery */}
@@ -210,14 +79,13 @@ const ProductDetails = () => {
           ))}
         </div>
 
-        {/* Main Image with Zoom Effect */}
+        {/* Main Image */}
         <div className="flex-1 relative group">
           <img
             src={selectedImage}
             alt={product.name}
             className="w-full h-[500px] object-contain border rounded-lg shadow-md hover:scale-105 transition-transform duration-500"
           />
-          {/* Zoom Hint */}
           <span className="absolute bottom-4 right-4 text-sm text-white bg-black bg-opacity-50 px-3 py-1 rounded-md opacity-0 group-hover:opacity-100 transition">
             Hover to Zoom
           </span>
@@ -227,12 +95,12 @@ const ProductDetails = () => {
       {/* RIGHT: Product Info */}
       <div className="p-4">
         <h1 className="text-3xl font-extrabold text-gray-800">{product.name}</h1>
-        <p className="text-yellow-500 mt-2 font-semibold text-lg">⭐ 5.0 | 2 Reviews</p>
+        <p className="text-[#fd7e14] mt-2 font-semibold text-lg">⭐ 5.0 | 2 Reviews</p>
 
         {/* Price */}
         <div className="mt-6">
           <p className="text-gray-500 text-sm">MRP:</p>
-          <p className="text-3xl font-bold text-red-600 flex items-center gap-2">
+          <p className="text-3xl font-bold text-[#fd7e14] flex items-center gap-2">
             ₹{discountedPrice.toLocaleString()}
             <span className="text-gray-400 text-lg line-through">
               ₹{product.price.mrp.toLocaleString()}
@@ -255,12 +123,36 @@ const ProductDetails = () => {
           <p className="text-sm text-gray-600 mt-1">UPI & Cards Accepted | Powered by Snapmint</p>
         </div>
 
-        {/* Buttons */}
+        {/* ✅ Quantity Selector */}
+        <div className="mt-6 flex items-center gap-4">
+          <span className="text-lg font-medium">Quantity:</span>
+          <button
+            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+            onClick={decreaseQuantity}
+          >
+            -
+          </button>
+          <span className="text-xl font-semibold">{quantity}</span>
+          <button
+            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+            onClick={increaseQuantity}
+          >
+            +
+          </button>
+        </div>
+
+        {/* ✅ Buttons */}
         <div className="mt-8 flex gap-6">
-          <button className="bg-red-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-red-700 shadow-lg hover:shadow-xl transition">
+          <button
+            className="bg-[#fd7e14] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-red-700 shadow-lg hover:shadow-xl transition"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </button>
-          <button className="border-2 border-gray-500 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition">
+          <button
+            className="border-2 border-gray-500 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition"
+            onClick={handleCheckout}
+          >
             Buy Now
           </button>
         </div>

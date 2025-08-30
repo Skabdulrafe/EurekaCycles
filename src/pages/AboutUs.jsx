@@ -4,7 +4,7 @@ const Aboutus = () => {
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col items-center py-16 px-6">
       <div className="max-w-4xl text-center">
-        <h1 className="text-4xl font-bold text-indigo-700 mb-6">
+        <h1 className="text-4xl font-bold text-[#fd7e14] mb-6">
           About Eureka Cycles
         </h1>
         <p className="text-lg text-gray-700 leading-relaxed mb-8">

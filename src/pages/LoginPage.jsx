@@ -1,14 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
-import { FaUserCircle } from "react-icons/fa"; // Import profile icon
+import { FaUserCircle } from "react-icons/fa"; 
+import toast, { Toaster } from "react-hot-toast"; // ✅ Import toast
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); // React Router Navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,35 +32,28 @@ const LoginPage = () => {
       });
 
       localStorage.setItem("token", JSON.stringify(res.data.token));
-      setIsLoggedIn(true); // Update state after successful login
+      setIsLoggedIn(true);
 
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        text: "You are being redirected...",
-        timer: 2000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
+      toast.success("Login Successful 🎉");
 
-      setTimeout(() => navigate("/"), 2000); // Redirect after 2 seconds
+      setTimeout(() => navigate("/"), 1500); 
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: err.response?.data?.message || "Invalid email or password. Please try again.",
-      });
+      toast.error(err.response?.data?.message || "Invalid email or password. Please try again.");
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    toast("Logged out successfully 👋", { icon: "🚪" });
     navigate("/");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      {/* ✅ Toaster for notifications */}
+      <Toaster position="top-center" reverseOrder={false} />
+
       <div className="flex bg-white rounded-lg shadow-lg overflow-hidden w-[800px]">
         {/* Left Section */}
         <div className="w-1/2 p-6">
@@ -105,13 +97,16 @@ const LoginPage = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
+                className="w-full bg-[#fd7e14] text-white py-2 rounded-md font-semibold hover:bg-orange-700 transition"
               >
                 Sign In
               </button>
               <p className="text-center text-sm mt-4">
                 Not a user?{" "}
-                <span className="text-blue-600 cursor-pointer" onClick={() => navigate("/register")}>
+                <span
+                  className="text-[#fd7e14] cursor-pointer"
+                  onClick={() => navigate("/register")}
+                >
                   Register
                 </span>
               </p>
@@ -120,8 +115,8 @@ const LoginPage = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-1/2 bg-black flex flex-col items-center justify-center text-white p-6">
-          <h2 className="text-2xl font-bold text-center">Welcome To Tekisky Mart!</h2>
+        <div className="w-1/2 bg-[#fd7e14] flex flex-col items-center justify-center text-white p-6">
+          <h2 className="text-2xl font-bold text-center">Welcome To Eureka Cycles!</h2>
           <p className="text-center text-sm mt-2">User Dashboard</p>
         </div>
       </div>

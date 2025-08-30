@@ -39,13 +39,13 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-black text-white">
+    <header className="bg-indigo-600 text-white">
       {/* Top Bar */}
       <div className="flex justify-between items-center px-4 py-3 text-sm">
         <div className="flex gap-3">
-          <a href="#" className="hover:text-gray-300">
+          <Link href="#" className="hover:text-gray-300">
             <Instagram />
-          </a>
+          </Link>
           <a href="#" className="hover:text-gray-300">
             <Facebook />
           </a>
@@ -64,12 +64,12 @@ const Navbar = () => {
           <div className="flex items-center space-x-2">
           <Link to="/">
   <img
-    src="https://tekiskymart.com/static/media/TekiskyMartNewLogo-removebg-preview.929802cde3ff522f7030.png"
+    // src="https://tekiskymart.com/static/media/TekiskyMartNewLogo-removebg-preview.929802cde3ff522f7030.png"
     alt="Logo"
     className="w-20 h-20 cursor-pointer"
   />
 </Link>
-            <h1 className="text-lg font-bold text-gray-700">TEKISKY MART</h1>
+            <h1 className="text-lg font-bold text-gray-700">Eureka cycles</h1>
           </div>
 
           {/* Search Bar */}
@@ -127,7 +127,7 @@ const Navbar = () => {
       </div>
 
       {/* Categories Menu (Desktop) */}
-      <nav className="bg-black hidden md:block">
+      <nav className="bg-indigo-600 hidden md:block">
         <div className="container mx-auto">
           <ul className="flex flex-wrap justify-center text-sm font-semibold space-x-4 py-4">
             {[
