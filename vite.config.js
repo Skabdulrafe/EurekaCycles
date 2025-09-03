@@ -20,5 +20,6 @@ export default defineConfig({
   },
   server: {
     port: 3000, // local dev only
-  }
+  },
+  base:process.env.VITE_BASE_PATH||"EurekaCycles",
 })
