@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import GetData from './GetData';
 import Navbar from './Navbar';
-import ProductDetails from './productDetails';
+import ProductDetails from './pages/ProductDetails';
 import Navbar2 from './navbar2';
 import CategoryPage from './pages/CategoryPage';
 import AboutUs from './pages/AboutUs';
