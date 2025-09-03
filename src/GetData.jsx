@@ -10,7 +10,7 @@ const ProductList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5700/product/getproduct")
+      .get("https://eurekacycles-backend.onrender.com/product/getproduct")
       .then((res) => {
         setProducts(res.data);
         setLoading(false);

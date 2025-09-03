@@ -53,7 +53,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5700/user/createuser",
+        "https://eurekacycles-backend.onrender.com/user/createuser",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

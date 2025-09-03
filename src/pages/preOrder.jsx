@@ -19,7 +19,7 @@ const PreOrder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5700/pre/addpreorder", formData);
+      const res = await axios.post("https://eurekacycles-backend.onrender.com/pre/addpreorder", formData);
       alert("Preorder submitted successfully!");
       console.log(res.data);
       setFormData({

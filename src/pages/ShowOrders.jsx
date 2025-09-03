@@ -11,7 +11,7 @@ const ShowOrders = () => {
     const fetchOrders = async () => {
       setMessage("");
       try {
-        const url = "http://localhost:5700/order/getAllOrders";
+        const url = "https://eurekacycles-backend.onrender.com/order/getAllOrders";
 
         // ✅ Get token from localStorage
         const token = JSON.parse(localStorage.getItem("token"));

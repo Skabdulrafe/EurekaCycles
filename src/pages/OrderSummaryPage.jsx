@@ -28,7 +28,7 @@ const OrderSummaryPage = () => {
       console.log("Sending Order Data:", orderData);
 
       const response = await axios.post(
-        "http://localhost:5700/order/saveorder",
+        "https://eurekacycles-backend.onrender.com/order/saveorder",
         orderData,
         {
           headers: {

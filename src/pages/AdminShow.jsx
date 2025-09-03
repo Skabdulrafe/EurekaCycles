@@ -10,7 +10,7 @@ const AdminShow = () => {
     const fetchUsers = async () => {
       setMessage("");
       try {
-        const url = "http://localhost:5700/user/getallUser";
+        const url = "https://eurekacycles-backend.onrender.com/user/getallUser";
 
         // ✅ Get token from localStorage
         const token = JSON.parse(localStorage.getItem("token"));

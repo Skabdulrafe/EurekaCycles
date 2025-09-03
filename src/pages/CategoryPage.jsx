@@ -16,7 +16,7 @@ const CategoryPage = () => {
     setLoading(true);
 
     axios
-      .get("http://localhost:5700/product/getproduct")
+      .get("https://eurekacycles-backend.onrender.com/product/getproduct")
       .then((response) => {
         const filteredProducts = response.data.filter(
           (product) =>

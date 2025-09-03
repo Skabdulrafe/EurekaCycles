@@ -24,7 +24,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = "http://localhost:5700/user/login";
+    const url = "https://eurekacycles-backend.onrender.com/user/login";
 
     try {
       const res = await axios.post(url, formData, {

@@ -10,7 +10,7 @@ const Show = () => {
     const fetchData = async () => {
       setMessage("");
       try {
-        const url = "http://localhost:5700/product/getproduct"; // ✅ API URL
+        const url = "https://eurekacycles-backend.onrender.com/product/getproduct"; // ✅ API URL
         const response = await axios.get(url);
         setUserData(response.data);
         setMessage("Data fetched successfully!");

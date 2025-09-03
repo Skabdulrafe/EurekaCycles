@@ -14,7 +14,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5700/product/getoneproduct/${id}`)
+      .get(`https://eurekacycles-backend.onrender.com/product/getoneproduct/${id}`)
       .then((res) => {
         setProduct(res.data);
         setSelectedImage(res.data.images[0]); // Default to first image

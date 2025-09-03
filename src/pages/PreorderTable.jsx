@@ -17,7 +17,7 @@ const PreorderTable = () => {
         }
 
         // attach token in Authorization header
-        const res = await axios.get("http://localhost:5700/pre/getpreorder", {
+        const res = await axios.get("https://eurekacycles-backend.onrender.com/pre/getpreorder", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
